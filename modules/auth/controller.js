@@ -1,16 +1,21 @@
 const { tryCatchWrapper } = require('../../common/wrapper.js');
 
+// dependencies
+const userRepository = require('./repository');
+const serviceFactory = require('./service');
+
 class AuthController {
     constructor() {
         this.getListUsers = tryCatchWrapper(this.getListUsers);
     }
 
-    getListUsers(req, res) {
+    async getListUsers(req, res) {
         const { page, limit } = req.query;
-        console.log('page', page);
-        console.log('limit', limit);
 
-        res.send('get list users successfully');
+        const userService = serviceFactory({ userRepository });
+        const result = await userService.getListUsers(page, limit);
+
+        res.success(result);
     }
 }
 

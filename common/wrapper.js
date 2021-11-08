@@ -22,7 +22,6 @@ exports.tryCatchWrapper = (f) => {
         }
         return function (req, res, next) {
             try {
-                console.log('run in wrapper');
                 f(req, res);
             } catch (error) {
                 next(error);

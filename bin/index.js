@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { serverConfig } = require('../config');
 const logger = require('../components/logger');
 

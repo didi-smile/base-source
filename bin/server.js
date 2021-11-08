@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const { getCORSOrigin } = require('../config');
+const { attachResponseBuilder } = require('../common/express-builder');
 
 const app = express();
 
@@ -15,5 +16,7 @@ app.use(cors({
     origin: getCORSOrigin(),
     credentials: true,
 }));
+
+app.use(attachResponseBuilder);
 
 module.exports = app;
