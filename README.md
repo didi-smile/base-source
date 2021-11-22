@@ -4,10 +4,10 @@ Base source for VNLP projects
 # How to use
 
 **Guide**
-1. Respond with error**
+1. **Respond with error****
 - Using `throw` with `VError` to response with error
 
-2. Logger
+2. **Logger**
 - Using VLogger to log in source code
 - Log rules:
     - `logger.info`: when you need to store an information of an action
@@ -16,35 +16,35 @@ Base source for VNLP projects
     - `logger.debug`: when you need to log something make you debug easier
 - Change log level according to *deploy environment*
 
-3. Coding convention
+3. **Coding convention**
 - Reference: https://github.com/airbnb/javascript
 
 **Step by step to create a new module**
-1. Create new module directory in `/modules`
+1. **Create new module directory in `/modules`**
 
-2. Define new route
+2. **Define new route**
 - Create new api route in `api.js`
 - Attach middlewares: `verify token`, `validate request data`, ...
 - Import controller
 
-3. Define middleware, validation
+3. **Define middleware, validation**
 - Create new validation to validate input data of this api
 - Using `Joi` schema to validate data, you can find guide [here](https://joi.dev/api/?v=17.4.2)
 - Using `validate` built-in function of `express-validation` to attach to API like a middleware
 
-4. Define new controller
+4. **Define new controller**
 - Import services and dependencies
 - Create service with `serviceFactory`
 - Extract data input from request
 - Respond using `res.success`
 - Wrapper method of controller with `tryCatchWrapper` in `constructor`
 
-5. Define new service
+5. **Define new service**
 - Create a service inside directory `/modules/.../services`
 - In service file, create a class `Service` with input are list of `dependencies` and return a function
 - Write **business logic** in service function
 
-6. Define new repository
+6. **Define new repository**
 - To interact with DB, you should create a repository
 - A new repository will extends from a `BaseRepository`
 - If you want to create some custom action to DB, you can create method in repository file.
