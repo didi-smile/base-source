@@ -5,7 +5,7 @@ Base source for VNLP projects
 
 
 ## Guide
-1. **Respond with error****
+1. **Respond with error**
     - Using `throw` with `VError` to response with error
 
 2. **Logger**
