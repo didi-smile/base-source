@@ -35,7 +35,7 @@ async function main() {
     loadAPI(app);
 
     // inject error handler
-    app.use(errorHandler);
+    app.use(errorHandler(logger));
 
     await runServer(app, port);
     logger.info(`Server started at port ${serverConfig.port}`);

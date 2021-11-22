@@ -9,7 +9,5 @@ module.exports = dependencies => {
         userRepository,
     } = dependencies;
 
-    return {
-        getListUsers: getListUsers.bind({ userRepository }),
-    };
+    return getListUsers.bind({ userRepository });
 };
