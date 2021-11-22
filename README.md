@@ -1,4 +1,6 @@
 # VNLP source base
+![VNLP](https://img.shields.io/badge/VNLP%20Tech-vnlp.ai-brightgreen)
+
 Base source for VNLP projects
 
 # How to use
