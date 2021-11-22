@@ -19,6 +19,12 @@ Base source for VNLP projects
 3. **Coding convention**
     - Reference: https://github.com/airbnb/javascript
 
+4. **Dependencies**
+    - Must not import sibling file directly. For example:
+        - Service cannot import another service directly, must add it as a dependencies and pass to `service factory` instead.
+    - Must not import code of upper layer. For example:
+        - Service can import common functions, helpers functions, but not vice versa.
+
 **Step by step to create a new module**
 1. **Create new module directory in `/modules`**
 
