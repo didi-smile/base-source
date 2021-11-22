@@ -29,7 +29,7 @@ Base source for VNLP projects
 
 3. Define middleware, validation
 - Create new validation to validate input data of this api
-- Using `Joi` schema to validate data, you can find guide (here)[https://joi.dev/api/?v=17.4.2]
+- Using `Joi` schema to validate data, you can find guide [here](https://joi.dev/api/?v=17.4.2)
 - Using `validate` built-in function of `express-validation` to attach to API like a middleware
 
 4. Define new controller
