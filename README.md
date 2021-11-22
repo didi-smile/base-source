@@ -3,9 +3,8 @@
 
 Base source for VNLP projects
 
-# How to use
-
-**Guide**
+---
+### Guide
 1. **Respond with error****
     - Using `throw` with `VError` to response with error
 
@@ -27,7 +26,8 @@ Base source for VNLP projects
     - Must not import code of upper layer. For example:
         - Service can import common functions, helpers functions, but not vice versa.
 
-**Step by step to create a new module**
+---
+### Step by step to create a new module
 1. **Create new module directory in `/modules`**
 
 2. **Define new route**
@@ -57,22 +57,25 @@ Base source for VNLP projects
     - A new repository will extends from a `BaseRepository`
     - If you want to create some custom action to DB, you can create method in repository file.
 
+---
 ### Installation
 - Logger (Pino with ELK stack)
 - Tracing (Jaeger)
 - Message Queue (bull, RabbitMQ or Kafka)
 
+---
 ### Run
 - Run `npm start` to start server
 - Run `npm run test` to run tests
 - Run `npm run dev` to start server with DEBUG level
 
+---
 ### TODO
 - Create Dockerfile
 - Create documentation with Swagger
 - Create metrics with Prometheus
 - Create cli command to generate module in one command
 
-
+---
 ### Contribute
 - VNLP team members can create PR to this repo to contribute to this source
