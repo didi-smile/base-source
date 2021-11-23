@@ -53,7 +53,11 @@ Base source for VNLP projects
     - In service file, create a class `Service` with input are list of `dependencies` and return a function
     - Write **business logic** in service function
 
-6. **Define new repository**
+6. **Define new model**
+    - To mapping Data with DB, you should create a model according to a collection in MongoDB
+    - Define options with `collection`, schema of model in `/modules/.../model.js`
+
+7. **Define new repository**
     - To interact with DB, you should create a repository
     - A new repository will extends from a `BaseRepository`
     - If you want to create some custom action to DB, you can create method in repository file.
