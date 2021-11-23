@@ -19,6 +19,7 @@ Base source for VNLP projects
 
 3. **Coding convention**
     - Reference: https://github.com/airbnb/javascript
+    - All third-party lib must be imported on top of file
 
 4. **Dependencies**
     - Must not import sibling file directly. For example:
@@ -72,6 +73,7 @@ Base source for VNLP projects
 
 
 ## TODO
+- Create websocket components
 - Create Dockerfile
 - Create documentation with Swagger
 - Create metrics with Prometheus
