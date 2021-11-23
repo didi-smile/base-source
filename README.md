@@ -77,6 +77,7 @@ Base source for VNLP projects
 
 
 ## TODO
+- Add log to monitor slow query DB
 - Create websocket components
 - Create Dockerfile
 - Create documentation with Swagger
