@@ -1,3 +1,5 @@
+//@ts-check
+
 const { validate } = require('express-validation');
 
 const authMiddleware = require('../../middlewares/auth');

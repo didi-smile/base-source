@@ -1,3 +1,5 @@
+//@ts-check
+
 const VLogger = require('@vnlp/logger');
 const { loggerConfig } = require('../config');
 

@@ -1,3 +1,4 @@
+//@ts-check
 
 function isAsync(f) {
     return f.constructor.name === "AsyncFunction";

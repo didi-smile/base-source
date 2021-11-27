@@ -1,3 +1,5 @@
+//@ts-check
+
 const openTracing = require('opentracing');
 const tracer = require('../components/tracing').getGlobalTracer();
 

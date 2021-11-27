@@ -1,6 +1,8 @@
+//@ts-check
+
 const openTracing = require('opentracing');
 const initJaegerTracer = require('jaeger-client').initTracerFromEnv;
-const { commonConfig } = require('../config');
+const { commonConfig, tracingConfig } = require('../config');
 
 exports.initTracer = () => {
     const env = commonConfig.env;
@@ -14,7 +16,7 @@ exports.initTracer = () => {
     } else {
         sampler = {
             type: 'probabilistic',
-            param: 0.1,
+            param: tracingConfig.sampleRate,
         };
     }
 
@@ -23,7 +25,7 @@ exports.initTracer = () => {
         serviceName: commonConfig.serviceName,
     };
 
-    const tracer = initJaegerTracer(config);
+    const tracer = initJaegerTracer(config, {});
     return openTracing.initGlobalTracer(tracer);
 };
 

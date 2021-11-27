@@ -1,3 +1,5 @@
+//@ts-check
+
 async function getListUsers(page, limit) {
     const data = await this.userRepository.getMany();
 

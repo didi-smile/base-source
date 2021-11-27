@@ -1,3 +1,5 @@
+//@ts-check
+
 const BaseModel = require('../../common/base-model');
 
 const UserModel = new BaseModel({
@@ -19,4 +21,4 @@ const UserModel = new BaseModel({
     },
 });
 
-module.exports = new UserModel();
+module.exports = UserModel;

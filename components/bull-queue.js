@@ -1,3 +1,5 @@
+//@ts-check
+
 const Queue = require('bull');
 
 const logger = require('../components/logger');

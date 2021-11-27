@@ -1,3 +1,5 @@
+//@ts-check
+
 const VQueue = require('../components/bull-queue');
 const logger = require('../components/logger');
 const { redisConfig } = require('../config');

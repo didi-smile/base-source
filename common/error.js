@@ -1,9 +1,11 @@
+//@ts-check
+
 const { ERROR } = require('../constants/error');
 const { StatusCodes } = require('http-status-codes');
 
 class VError extends Error {
     constructor({ err, message, code, errCode }) {
-        if (!err instanceof Error) {
+        if (!(err instanceof Error)) {
             message = err;
             if (!message) {
                 throw new Error('invalid error definition');

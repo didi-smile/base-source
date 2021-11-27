@@ -31,3 +31,7 @@ exports.loggerConfig = {
     elasticPass: process.env.ELASTIC_PASS,
     level: process.env.LOG_LEVEL || 'info',
 };
+
+exports.tracingConfig = {
+    sampleRate: parseFloat(process.env.TRACING_SAMPLE_RATE) || 0.1,
+};

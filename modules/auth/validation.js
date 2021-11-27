@@ -1,3 +1,5 @@
+//@ts-check
+
 const { Joi } = require('express-validation');
 
 exports.validateGetListUsers = () => ({

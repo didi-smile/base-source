@@ -1,3 +1,5 @@
+//@ts-check
+
 const mongoose = require('mongoose');
 
 const Common = require('../constants/common');
@@ -23,6 +25,8 @@ class BaseModel {
                 default: Common.STATUS.ACTIVE,
             },
         };
+
+        this.init();
     }
 
     init() {

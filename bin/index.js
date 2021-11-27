@@ -1,3 +1,5 @@
+//@ts-check
+
 require('dotenv').config();
 
 const { serverConfig } = require('../config');

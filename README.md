@@ -27,6 +27,15 @@ Base source for VNLP projects
     - Must not import code of upper layer. For example:
         - Service can import common functions, helpers functions, but not vice versa.
 
+5. **Define JSDoc**
+    - Use `/**` to quickly create jsdoc
+    - Reference: https://code.visualstudio.com/docs/languages/javascript#_jsdoc-support
+
+6. **Recommend VSCode extensions**
+    - GitLens
+    - Code Spell Checker
+    - Javascript(ES6) Code Snippets
+    - Todo Tree
 
 ## Step by step to create a new module
 1. **Create new module directory in `/modules`**
@@ -77,6 +86,8 @@ Base source for VNLP projects
 
 
 ## TODO
+- Add pre-commit, lint to clean code
+- Add redis connection
 - Add log to monitor slow query DB
 - Create websocket components
 - Create Dockerfile
@@ -87,4 +98,4 @@ Base source for VNLP projects
 
 ## Contribute
 - VNLP team members can create PR to this repo to contribute to this source
-- If you have a problem with this source, you can add an issue and tag @duysmile
+- If you have a problem with this source, you can add an issue and tag `@duysmile` or email me `duy210697@gmail.com`

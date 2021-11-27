@@ -1,3 +1,5 @@
+//@ts-check
+
 const _ = require('lodash');
 const { StatusCodes } = require('http-status-codes');
 const { ValidationError } = require('express-validation');
