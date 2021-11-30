@@ -96,7 +96,7 @@ Base source for VNLP projects
 - Run `npm start` to start server
 - Run `npm run test` to run tests
 - Run `npm run dev` to start server with DEBUG level
-
+- Run `npm run lint` to find coding convention issues
 
 ## TODO
 - Add pre-commit, lint to clean code
