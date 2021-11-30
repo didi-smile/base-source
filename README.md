@@ -40,6 +40,16 @@ Base source for VNLP projects
 7. **Recommend resources**
     - Clean code architecture: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
 
+8. **Examples**
+    - Use redis command
+    ```javascript
+    const { getRedisClient } = require('../../components/redis');
+    ...
+    const redisClient = getRedisClient();
+    redisClient.set('hello', 'world');
+    ...
+    ```
+
 ## Step by step to create a new module
 1. **Create new module directory in `/modules`**
 
