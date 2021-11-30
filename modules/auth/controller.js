@@ -5,7 +5,7 @@ const { addJob } = require('../../jobs');
 const { QUEUE } = require('../../constants/queue');
 
 // dependencies
-const userBusiness = require('./business');
+const userBusiness = require("./business");
 
 class AuthController {
     constructor() {
