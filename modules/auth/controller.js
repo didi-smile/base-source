@@ -17,7 +17,6 @@ class AuthController {
 
         const result = await userBusiness.getListUser(page, limit);
         await addJob(QUEUE.Ping, { time: new Date() });
-
         res.success(result);
     }
 }

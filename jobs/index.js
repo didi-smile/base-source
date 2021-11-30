@@ -26,14 +26,13 @@ function loadConsumer(listQueueName) {
         const { handler } = settings[queueName];
         listQueueName[queueName].addConsumer(handler);
     }
-    logger.info('finish load consumer');
 }
 
 function setupJob() {
     // add consumers
     loadConsumer(listQueue);
 
-    logger.info('finish init job');
+    logger.info('finish load consumer');
 }
 
 function addJob(queueName, jobData, options = {}) {

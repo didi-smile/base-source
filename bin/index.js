@@ -16,6 +16,7 @@ const { connectMongo } = require('../components/connect-mongo');
 require('./model');
 
 const loadAPI = require('./routes');
+const { connectRedis } = require('../components/redis');
 
 function runServer(server, port) {
     return new Promise(res => {
@@ -28,6 +29,9 @@ async function main() {
 
     // connect db
     await connectMongo();
+
+    // connect redis
+    await connectRedis();
 
     // initialize components
     initTracer();

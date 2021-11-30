@@ -78,6 +78,8 @@ Base source for VNLP projects
     - A new repository will extends from a `BaseRepository`
     - If you want to create some custom action to DB, you can create method in repository file.
 
+9. **Add checker in every file**
+    - Add `// @ts-check` on top of file, see more [here](https://code.visualstudio.com/docs/nodejs/working-with-javascript#_type-checking-javascript)
 
 ### Rules
 - Mustn't import file of the same level in the other. For example:

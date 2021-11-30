@@ -2,9 +2,13 @@
 
 const mongoose = require('mongoose');
 const { mongoConfig } = require('../config');
+const logger = require('./logger');
 
-function connectMongo() {
-    return mongoose.connect(mongoConfig.connection);
+async function connectMongo() {
+    const connection = await mongoose.connect(mongoConfig.connection);
+    logger.info('mongo connected');
+
+    return connection;
 }
 
 module.exports = {
