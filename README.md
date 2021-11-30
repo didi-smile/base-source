@@ -99,17 +99,17 @@ Base source for VNLP projects
 - Run `npm run lint` to find coding convention issues
 
 ## TODO
-- Add pre-commit, lint to clean code
-- Add redis connection
-- Add log to monitor slow query DB
-- Create websocket components
-- Create Dockerfile
-- Create documentation with Swagger
-- Create metrics with Prometheus
-- Create cli command to generate module in one command
-- Add unit test, integration test
-- Adđ k6 test script for load test
-- Add swagger to generate docs
+- [x] Add pre-commit, lint to clean code
+- [ ] Add redis connection
+- [ ] Add log to monitor slow query DB
+- [ ] Create websocket components
+- [ ] Create Dockerfile
+- [ ] Create documentation with Swagger
+- [ ] Create metrics with Prometheus
+- [ ] Create cli command to generate module in one command
+- [ ] Add unit test, integration test
+- [ ] Add k6 test script for load test
+- [ ] Add swagger to generate docs
 
 
 ## Contribute
