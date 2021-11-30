@@ -12,6 +12,9 @@ const { initTracer } = require('../components/tracing');
 const { setupJob } = require('../jobs');
 const { connectMongo } = require('../components/connect-mongo');
 
+// load models
+require('./model');
+
 const loadAPI = require('./routes');
 
 function runServer(app, port) {
@@ -25,6 +28,7 @@ async function main() {
 
     // connect db
     await connectMongo();
+
 
     // initialize components
     initTracer();

@@ -37,6 +37,9 @@ Base source for VNLP projects
     - Javascript(ES6) Code Snippets
     - Todo Tree
 
+7. **Recommend resources**
+    - Clean code architecture: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+
 ## Step by step to create a new module
 1. **Create new module directory in `/modules`**
 
@@ -58,24 +61,34 @@ Base source for VNLP projects
     - Wrapper method of controller with `tryCatchWrapper` in `constructor`
 
 5. **Define new service**
-    - Create a service inside directory `/modules/.../services`
-    - In service file, create a class `Service` with input are list of `dependencies` and return a function
-    - Write **business logic** in service function
+    - Write **business logic** in method of class Service
+    - If business need to combine many services, create a `business` file
 
-6. **Define new model**
+6. **Define new business** (optional)
+    - Create a business file, import all necessary services
+    - Write `business logic` in method of class Business
+    - Import business file inside controller file
+
+7. **Define new model**
     - To mapping Data with DB, you should create a model according to a collection in MongoDB
     - Define options with `collection`, schema of model in `/modules/.../model.js`
 
-7. **Define new repository**
+8. **Define new repository**
     - To interact with DB, you should create a repository
     - A new repository will extends from a `BaseRepository`
     - If you want to create some custom action to DB, you can create method in repository file.
 
 
+### Rules
+- Mustn't import file of the same level in the other. For example:
+    - Service mustn't import other services.
+    - Repository mustn't import other repositories.
+
 ## Integration
 - Logger (Pino with ELK stack)
 - Tracing (Jaeger)
-- Message Queue (bull, RabbitMQ or Kafka)
+- Message Queue (bull, RabbitMQ)
+- Monitoring (Prometheus, Grafana)
 
 
 ## Run
@@ -94,6 +107,9 @@ Base source for VNLP projects
 - Create documentation with Swagger
 - Create metrics with Prometheus
 - Create cli command to generate module in one command
+- Add unit test, integration test
+- Adđ k6 test script for load test
+- Add swagger to generate docs
 
 
 ## Contribute
