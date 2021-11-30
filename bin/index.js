@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 require('dotenv').config();
 
@@ -17,18 +17,17 @@ require('./model');
 
 const loadAPI = require('./routes');
 
-function runServer(app, port) {
+function runServer(server, port) {
     return new Promise(res => {
-        app.listen(port, res);
+        server.listen(port, res);
     });
 }
 
 async function main() {
-    const port = serverConfig.port;
+    const { port } = serverConfig;
 
     // connect db
     await connectMongo();
-
 
     // initialize components
     initTracer();

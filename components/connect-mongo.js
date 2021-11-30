@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 const mongoose = require('mongoose');
 const { mongoConfig } = require('../config');

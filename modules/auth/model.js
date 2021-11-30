@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 const BaseModel = require('../../common/base-model');
 

@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 const _ = require('lodash');
 const { StatusCodes } = require('http-status-codes');
@@ -6,20 +6,20 @@ const { ValidationError } = require('express-validation');
 
 const VError = require('../common/error');
 
-module.exports = (logger) => (err, req, res, _next) => {
+module.exports = logger => (err, req, res, next) => {
     if (err instanceof ValidationError) {
         logger.error(err.details);
 
-        let messages = [];
+        const messages = [];
         const details = _.get(err, 'details');
-        for (let key in details) {
-            for (const err of details[key]) {
-                messages.push(err.message);
+        for (const key in details) {
+            for (const error of details[key]) {
+                messages.push(error.message);
             }
         }
 
-        let dataResponse = {};
-        if (messages.length == 1) {
+        const dataResponse = {};
+        if (messages.length === 1) {
             dataResponse.message = messages[0];
         } else if (messages.length > 1) {
             dataResponse.messages = messages;
@@ -47,4 +47,6 @@ module.exports = (logger) => (err, req, res, _next) => {
         .json({
             message: 'unexpected error',
         });
+
+    next();
 };

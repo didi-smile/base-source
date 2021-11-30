@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 const openTracing = require('opentracing');
 const tracer = require('../components/tracing').getGlobalTracer();
@@ -27,7 +27,7 @@ exports.traceRequest = (req, res, next) => {
         }
 
         span.setTag(openTracing.Tags.HTTP_STATUS_CODE, res.statusCode);
-        span.log({ event: "request_end" });
+        span.log({ event: 'request_end' });
         span.finish();
     };
 

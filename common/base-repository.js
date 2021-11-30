@@ -1,4 +1,4 @@
-//@ts-check
+// @ts-check
 
 const mongoose = require('mongoose');
 
@@ -14,7 +14,7 @@ class BaseRepository {
             isLean: true,
             fields: '',
             populate: [],
-            sort: ''
+            sort: '',
         }, options);
 
         newOptions.where = Object.assign({}, {
@@ -53,7 +53,7 @@ class BaseRepository {
 
         return this.model.find(newOptions.where)
             .skip(skip)
-            .limit(parseInt(newOptions.limit))
+            .limit(parseInt(newOptions.limit, 10))
             .select(newOptions.fields)
             .sort(newOptions.sort)
             .populate(newOptions.populate)
@@ -119,7 +119,11 @@ class BaseRepository {
             new: true,
         }, newOptions.options);
 
-        return this.model.findOneAndUpdate(newOptions.where, newOptions.data, newOptions.options).lean(newOptions.isLean);
+        return this.model.findOneAndUpdate(
+            newOptions.where,
+            newOptions.data,
+            newOptions.options,
+        ).lean(newOptions.isLean);
     }
 
     count(options) {

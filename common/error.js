@@ -1,19 +1,21 @@
-//@ts-check
+// @ts-check
+
+const { StatusCodes } = require('http-status-codes');
 
 const { ERROR } = require('../constants/error');
-const { StatusCodes } = require('http-status-codes');
 
 class VError extends Error {
     constructor({ err, message, code, errCode }) {
+        let msg = message;
         if (!(err instanceof Error)) {
-            message = err;
-            if (!message) {
+            msg = err;
+            if (!msg) {
                 throw new Error('invalid error definition');
             }
         }
 
-        if (message) {
-            super(message);
+        if (msg) {
+            super(msg);
         } else {
             super('something went wrong');
         }

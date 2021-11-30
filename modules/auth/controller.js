@@ -1,9 +1,10 @@
-//@ts-check
+// @ts-check
 
-const { tryCatchWrapper } = require('../../common/wrapper.js');
+const { tryCatchWrapper } = require('../../common/wrapper');
+const { addJob } = require('../../jobs');
+const { QUEUE } = require('../../constants/queue');
 
 // dependencies
-const userRepository = require('./repository');
 const userBusiness = require('./business');
 
 class AuthController {
@@ -15,6 +16,7 @@ class AuthController {
         const { page, limit } = req.query;
 
         const result = await userBusiness.getListUser(page, limit);
+        await addJob(QUEUE.Ping, { time: new Date() });
 
         res.success(result);
     }

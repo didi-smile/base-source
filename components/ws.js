@@ -1,1 +1,1 @@
-//@ts-check
+// @ts-check

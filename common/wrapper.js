@@ -1,7 +1,7 @@
-//@ts-check
+// @ts-check
 
 function isAsync(f) {
-    return f.constructor.name === "AsyncFunction";
+    return f.constructor.name === 'AsyncFunction';
 }
 
 /*
@@ -10,7 +10,7 @@ function isAsync(f) {
  * return
  * - wrapper function with try catch
 */
-exports.tryCatchWrapper = (f) => {
+exports.tryCatchWrapper = f => {
     if (typeof f === 'function') {
         if (isAsync(f)) {
             return async function (req, res, next) {

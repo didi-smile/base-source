@@ -1,7 +1,11 @@
-//@ts-check
+// @ts-check
 
 const { StatusCodes } = require('http-status-codes');
 const logger = require('../components/logger');
+
+function calculateResponseTime(begin) {
+    return `${(Date.now() - begin) / 1000}s`;
+}
 
 exports.attachResponseBuilder = (req, res, next) => {
     const begin = Date.now();
@@ -28,7 +32,3 @@ exports.attachResponseBuilder = (req, res, next) => {
 
     next();
 };
-
-function calculateResponseTime(begin) {
-    return (Date.now() - begin) / 1000 + 's';
-}

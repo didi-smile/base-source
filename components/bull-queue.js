@@ -1,11 +1,11 @@
-//@ts-check
+// @ts-check
 
 const Queue = require('bull');
 
-const logger = require('../components/logger');
+const logger = require('./logger');
 
 const BACK_OFF = {
-    type: "exponential",
+    type: 'exponential',
     delay: 1000,
 };
 
@@ -45,16 +45,19 @@ class VQueue {
         if (job) {
             return job.remove();
         }
+        return Promise.resolve();
     }
 
     initEvent() {
-        this.queue.on('completed', (job, _) => {
+        this.queue.on('completed', job => {
             logger.info(`${this.name.toUpperCase()}: ${job.id} sent successfully`);
         });
 
-        this.queue.on('error', (error) => {
-            error.message = `ERROR: ${this.name.toUpperCase()}: ${error.message}`;
-            logger.error(error, `${this.name.toUpperCase()} failed`);
+        this.queue.on('error', error => {
+            const err = Object.assign(error, {
+                message: `ERR: ${this.name.toUpperCase()}: ${error.message}`,
+            });
+            logger.error(err, `${this.name.toUpperCase()} failed`);
         });
     }
 }

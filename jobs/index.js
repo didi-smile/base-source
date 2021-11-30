@@ -1,25 +1,44 @@
-//@ts-check
+// @ts-check
 
 const VQueue = require('../components/bull-queue');
 const logger = require('../components/logger');
-const { redisConfig } = require('../config');
+const { QUEUE } = require('../constants/queue');
 
+// import handlers
+const { pingHandler } = require('./consumers/ping');
 
-const listQueue = {
-    // queueName: <Queue>
+const settings = {
+    [QUEUE.Ping]: {
+        concurrency: 1,
+        handler: pingHandler,
+    },
 };
 
-function setupJob() {
-    const redisHost = redisConfig.host;
+const listQueue = Object.keys(settings).reduce((init, queueName) => {
+    const { concurrency } = settings[queueName];
+    return Object.assign(init, {
+        [queueName]: new VQueue(queueName, concurrency),
+    });
+}, {});
 
+function loadConsumer(listQueueName) {
+    for (const queueName in listQueueName) {
+        const { handler } = settings[queueName];
+        listQueueName[queueName].addConsumer(handler);
+    }
+    logger.info('finish load consumer');
+}
+
+function setupJob() {
     // add consumers
+    loadConsumer(listQueue);
 
     logger.info('finish init job');
 }
 
-function addJob(queueName, jobData) {
+function addJob(queueName, jobData, options = {}) {
     if (queueName in listQueue) {
-        listQueue[queueName].addJob(jobData);
+        listQueue[queueName].provide(jobData, options);
     } else {
         logger.warn(`queue ${queueName} does not exist!`);
     }
