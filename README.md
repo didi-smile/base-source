@@ -102,12 +102,12 @@ Base source for VNLP projects
 
 ## TODO
 - [x] Add pre-commit, lint to clean code
-- [ ] Add redis connection
+- [x] Add redis connection
+- [ ] Create metrics with Prometheus
 - [ ] Add log to monitor slow query DB
 - [ ] Create websocket components
 - [ ] Create Dockerfile
 - [ ] Create documentation with Swagger
-- [ ] Create metrics with Prometheus
 - [ ] Create cli command to generate module in one command
 - [ ] Add unit test, integration test
 - [ ] Add k6 test script for load test
