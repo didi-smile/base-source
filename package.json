@@ -22,6 +22,7 @@
   "homepage": "https://github.com/duysmile/structure-app-nodejs#readme",
   "dependencies": {
     "@vnlp/logger": "github:duysmile/logger",
+    "amqplib": "^0.8.0",
     "bull": "^4.0.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
