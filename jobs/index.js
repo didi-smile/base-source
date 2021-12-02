@@ -1,25 +1,22 @@
 // @ts-check
 
-const VQueue = require('../components/bull-queue');
 const logger = require('../components/logger');
-const { QUEUE } = require('../constants/queue');
 
-// import handlers
-const { pingHandler } = require('./consumers/ping');
+// rabbit
+const { getListQueueRabbit, settingsQueueRabbit } = require('./rabbit-queue');
+const { getListQueueBull, settingsQueueBull } = require('./bull-queue');
 
 const settings = {
-    [QUEUE.Ping]: {
-        concurrency: 1,
-        handler: pingHandler,
-    },
+    ...settingsQueueRabbit,
+    ...settingsQueueBull,
 };
 
-const listQueue = Object.keys(settings).reduce((init, queueName) => {
-    const { concurrency } = settings[queueName];
-    return Object.assign(init, {
-        [queueName]: new VQueue(queueName, concurrency),
-    });
-}, {});
+async function getListQueue() {
+    const listQueueRabbit = await getListQueueRabbit();
+    const listQueueBull = await getListQueueBull();
+
+    return { ...listQueueRabbit, ...listQueueBull };
+}
 
 function loadConsumer(listQueueName) {
     for (const queueName in listQueueName) {
@@ -28,15 +25,18 @@ function loadConsumer(listQueueName) {
     }
 }
 
-function setupJob() {
+async function setupJob() {
+    const listQueue = await getListQueue();
     // add consumers
     loadConsumer(listQueue);
 
     logger.info('finish load consumer');
 }
 
-function addJob(queueName, jobData, options = {}) {
+async function addJob(queueName, jobData, options = {}) {
+    const listQueue = await getListQueue();
     if (queueName in listQueue) {
+        console.log(queueName)
         listQueue[queueName].provide(jobData, options);
     } else {
         logger.warn(`queue ${queueName} does not exist!`);
