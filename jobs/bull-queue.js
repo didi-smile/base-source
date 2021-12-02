@@ -2,23 +2,23 @@ const { QUEUE } = require('../constants/queue');
 const VQueue = require('../components/bull-queue');
 const { pingHandler } = require('./consumers/ping');
 
-const settingsQueueBull = {
-    [QUEUE.Ping]: {
-        concurrency: 1,
-        handler: pingHandler,
-    },
-};
 
-function getListQueueBull() {
-    return Object.keys(settingsQueueBull).reduce((init, queueName) => {
+function getListQueueBull(settingsQueueBull) {
+    const result = {};
+    for (const queueName in settingsQueueBull) {
         const { concurrency } = settingsQueueBull[queueName];
-        return Object.assign(init, {
-            [queueName]: new VQueue(queueName, concurrency),
-        });
-    }, {});
+        if (
+            !settingsQueueBull[queueName].type
+            || settingsQueueBull[queueName].type === 'rabbit'
+        ) continue;
+
+        const queue = new VQueue(queueName, concurrency);
+        result[queueName] = queue;
+    }
+
+    return result;
 }
 
 module.exports = {
     getListQueueBull,
-    settingsQueueBull,
 };

@@ -3,17 +3,30 @@
 const logger = require('../components/logger');
 
 // rabbit
-const { getListQueueRabbit, settingsQueueRabbit } = require('./rabbit-queue');
-const { getListQueueBull, settingsQueueBull } = require('./bull-queue');
+const { getListQueueRabbit } = require('./rabbit-queue');
+const { getListQueueBull } = require('./bull-queue');
+const { QUEUE } = require('../constants/queue');
+const { pingHandler } = require('./consumers/ping');
+const { handlerNotification } = require('./consumers/noitification');
 
 const settings = {
-    ...settingsQueueRabbit,
-    ...settingsQueueBull,
+    // bull
+    [QUEUE.Ping]: {
+        concurrency: 1,
+        handler: pingHandler,
+        type: 'bull',
+    },
+
+    // rabbit
+    [QUEUE.Notification]: {
+        handler: handlerNotification,
+        type: 'rabbit',
+    },
 };
 
 async function getListQueue() {
-    const listQueueRabbit = await getListQueueRabbit();
-    const listQueueBull = await getListQueueBull();
+    const listQueueRabbit = await getListQueueRabbit(settings);
+    const listQueueBull = getListQueueBull(settings);
 
     return { ...listQueueRabbit, ...listQueueBull };
 }

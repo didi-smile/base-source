@@ -1,31 +1,28 @@
 const amqp = require('amqplib');
 
-const RQueue = require('../components/rabbit-queue');
-const { QUEUE } = require('../constants/queue');
-const { handlerNotification } = require('./consumers/noitification');
-
-const settingsQueueRabbit = {
-    [QUEUE.Notification]: {
-        handler: handlerNotification,
-    },
-};
+const VRabbitQueue = require('../components/rabbit-queue');
 
 function connect() {
     return amqp.connect(process.env.RABBIT_HOST);
 }
 
-async function getListQueueRabbit() {
+async function getListQueueRabbit(settingsQueueRabbit) {
     const connection = await connect();
-    return Object.keys(settingsQueueRabbit).reduce(async (init, queueName) => {
-        const queue = new RQueue(queueName);
+    const result = {};
+    for (const queueName in settingsQueueRabbit) {
+        if (
+            !settingsQueueRabbit[queueName].type
+            || settingsQueueRabbit[queueName].type === 'bull'
+        ) continue;
+
+        const queue = new VRabbitQueue(queueName);
         await queue.init(connection);
-        return Object.assign(init, {
-            [queueName]: queue,
-        });
-    }, {});
+        result[queueName] = queue;
+    }
+
+    return result;
 }
 
 module.exports = {
     getListQueueRabbit,
-    settingsQueueRabbit,
 };

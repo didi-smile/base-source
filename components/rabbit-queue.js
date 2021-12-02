@@ -1,6 +1,6 @@
 const logger = require('./logger');
 
-class RQueue {
+class VRabbitQueue {
     constructor(exchange) {
         this.queueName = exchange;
     }
@@ -18,7 +18,7 @@ class RQueue {
             durable: true,
         }, options);
         this.channel = await connection.createChannel();
-        this.channel.assertExchange(this.queueName, 'direct', newOptions);
+        this.channel.assertExchange(this.queueName, 'direct', newOptions).catch(this.error);
     }
 
     provide(message, options = {}) {
@@ -28,28 +28,26 @@ class RQueue {
     }
 
     assertQueue(options = {}) {
-        return this.channel.assertQueue(this.queueName, options).catch(this.error);
+        return this.channel.assertQueue(this.queueName, { durable: options.durable }).catch(this.error);
     }
 
     async addConsumer(hanlder, options = {}) {
         const severity = options.severity || '';
         const newOptions = Object.assign({
+            noAck: true,
             durable: true,
         }, options);
         await this.assertQueue(newOptions);
         this.channel.bindQueue(this.queueName, this.queueName, severity);
         this.channel.consume(this.queueName, data => {
-            if (data.content) {
-                hanlder();
-            }
-        }, { noAck: true });
+            hanlder(data.content.toString());
+        }, { noAck: newOptions.noAck });
     }
 
     error(error) {
-        error.message = `ERROR: ${this.name.toUpperCase()}: ${error.message}`;
-        logger.error(error);
+        logger.error('Failed to handle rabbit queue', error);
         process.exit(1);
     }
 }
 
-module.exports = RQueue;
+module.exports = VRabbitQueue;
