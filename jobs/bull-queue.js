@@ -21,4 +21,4 @@ function getListQueueBull() {
 module.exports = {
     getListQueueBull,
     settingsQueueBull,
-}
+};

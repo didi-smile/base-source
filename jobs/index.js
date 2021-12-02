@@ -36,7 +36,6 @@ async function setupJob() {
 async function addJob(queueName, jobData, options = {}) {
     const listQueue = await getListQueue();
     if (queueName in listQueue) {
-        console.log(queueName)
         listQueue[queueName].provide(jobData, options);
     } else {
         logger.warn(`queue ${queueName} does not exist!`);

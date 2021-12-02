@@ -1,14 +1,16 @@
+const logger = require('./logger');
+
 class RQueue {
     constructor(exchange) {
         this.queueName = exchange;
     }
 
     getQueueName() {
-        this.queueName;
+        return this.queueName;
     }
 
     async createChannel(connection) {
-        return connection.createChannel().then(channel => { return channel }).catch(this.error);
+        return connection.createChannel().catch(this.error);
     }
 
     async init(connection, options = {}) {
@@ -36,7 +38,7 @@ class RQueue {
         }, options);
         await this.assertQueue(newOptions);
         this.channel.bindQueue(this.queueName, this.queueName, severity);
-        this.channel.consume(this.queueName, function (data) {
+        this.channel.consume(this.queueName, data => {
             if (data.content) {
                 hanlder();
             }
