@@ -8,19 +8,20 @@ const { getListQueueBull } = require('./bull-queue');
 const { QUEUE } = require('../constants/queue');
 const { pingHandler } = require('./consumers/ping');
 const { handlerNotification } = require('./consumers/noitification');
+const { TYPE_QUEUES } = require('../constants/common');
 
 const settings = {
     // bull
     [QUEUE.Ping]: {
         concurrency: 1,
         handler: pingHandler,
-        type: 'bull',
+        type: TYPE_QUEUES.BULL,
     },
 
     // rabbit
     [QUEUE.Notification]: {
         handler: handlerNotification,
-        type: 'rabbit',
+        type: TYPE_QUEUES.RABBIT,
     },
 };
 

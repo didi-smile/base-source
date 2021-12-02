@@ -8,4 +8,8 @@ module.exports = {
         ACTIVE: 1,
         INACTIVE: 0,
     },
+    TYPE_QUEUES: {
+        BULL: 'bull',
+        RABBIT: 'rabbit',
+    },
 };

@@ -28,7 +28,9 @@ class VRabbitQueue {
     }
 
     assertQueue(options = {}) {
-        return this.channel.assertQueue(this.queueName, { durable: options.durable }).catch(this.error);
+        return this.channel.assertQueue(this.queueName, {
+            durable: options.durable,
+        }).catch(this.error);
     }
 
     async addConsumer(hanlder, options = {}) {
