@@ -3,7 +3,7 @@ const logger = require('./logger');
 class VRabbitQueue {
     constructor(queueName, exchange) {
         this.queueName = queueName;
-        this.exchange = exchange;
+        this.exchange = exchange || '';
     }
 
     getQueueName() {
@@ -37,13 +37,17 @@ class VRabbitQueue {
     async addConsumer(hanlder, options = {}) {
         const severity = options.severity || '';
         const newOptions = Object.assign({
-            noAck: true,
+            noAck: false,
             durable: true,
         }, options);
         await this.assertQueue(newOptions);
         this.channel.bindQueue(this.queueName, this.exchange, severity);
         this.channel.consume(this.queueName, data => {
-            hanlder(data.content.toString());
+            try {
+                hanlder(data.content.toString());
+            } catch (error) {
+                logger.error('Failed to handle function', error);
+            }
         }, { noAck: newOptions.noAck });
     }
 

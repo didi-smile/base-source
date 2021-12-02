@@ -1,29 +1,19 @@
 const amqp = require('amqplib');
 
 const VRabbitQueue = require('../components/rabbit-queue');
-const { TYPE_QUEUES } = require('../constants/common');
 
-function connect() {
+function connectRabbit() {
     return amqp.connect(process.env.RABBIT_HOST);
 }
 
-async function getListQueueRabbit(settingsQueueRabbit) {
-    const connection = await connect();
-    const result = {};
-    for (const queueName in settingsQueueRabbit) {
-        if (
-            !settingsQueueRabbit[queueName].type
-            || settingsQueueRabbit[queueName].type === TYPE_QUEUES.BULL
-        ) continue;
+async function getRabbitQueue(queueName, connection) {
+    const queue = new VRabbitQueue(queueName, queueName);
+    await queue.init(connection);
 
-        const queue = new VRabbitQueue(queueName, queueName);
-        await queue.init(connection);
-        result[queueName] = queue;
-    }
-
-    return result;
+    return queue;
 }
 
 module.exports = {
-    getListQueueRabbit,
+    connectRabbit,
+    getRabbitQueue,
 };

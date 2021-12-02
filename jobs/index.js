@@ -3,8 +3,8 @@
 const logger = require('../components/logger');
 
 // rabbit
-const { getListQueueRabbit } = require('./rabbit-queue');
-const { getListQueueBull } = require('./bull-queue');
+const { connectRabbit, getRabbitQueue } = require('./rabbit-queue');
+const { getBullQueue } = require('./bull-queue');
 const { QUEUE } = require('../constants/queue');
 const { pingHandler } = require('./consumers/ping');
 const { handlerNotification } = require('./consumers/noitification');
@@ -26,10 +26,22 @@ const settings = {
 };
 
 async function getListQueue() {
-    const listQueueRabbit = await getListQueueRabbit(settings);
-    const listQueueBull = getListQueueBull(settings);
+    const result = {};
+    const connection = await connectRabbit();
+    for (const queueName in settings) {
+        if (!settings[queueName].type) continue;
 
-    return { ...listQueueRabbit, ...listQueueBull };
+        if (settings[queueName].type === TYPE_QUEUES.BULL) {
+            const { concurrency } = settings[queueName];
+            const queue = getBullQueue(queueName, concurrency);
+            result[queueName] = queue;
+        } else if (settings[queueName].type === TYPE_QUEUES.RABBIT) {
+            const queue = await getRabbitQueue(queueName, connection);
+            result[queueName] = queue;
+        }
+    }
+
+    return result
 }
 
 function loadConsumer(listQueueName) {
