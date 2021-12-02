@@ -16,7 +16,7 @@ async function getListQueueRabbit(settingsQueueRabbit) {
             || settingsQueueRabbit[queueName].type === TYPE_QUEUES.BULL
         ) continue;
 
-        const queue = new VRabbitQueue(queueName);
+        const queue = new VRabbitQueue(queueName, queueName);
         await queue.init(connection);
         result[queueName] = queue;
     }

@@ -1,8 +1,9 @@
 const logger = require('./logger');
 
 class VRabbitQueue {
-    constructor(exchange) {
-        this.queueName = exchange;
+    constructor(queueName, exchange) {
+        this.queueName = queueName;
+        this.exchange = exchange;
     }
 
     getQueueName() {
@@ -18,13 +19,13 @@ class VRabbitQueue {
             durable: true,
         }, options);
         this.channel = await connection.createChannel();
-        this.channel.assertExchange(this.queueName, 'direct', newOptions).catch(this.error);
+        this.channel.assertExchange(this.exchange, 'direct', newOptions).catch(this.error);
     }
 
     provide(message, options = {}) {
         const severity = options.severity || '';
         const msg = JSON.stringify(message, null, 0);
-        this.channel.publish(this.queueName, severity, Buffer.from(msg));
+        this.channel.publish(this.exchange, severity, Buffer.from(msg));
     }
 
     assertQueue(options = {}) {
@@ -40,7 +41,7 @@ class VRabbitQueue {
             durable: true,
         }, options);
         await this.assertQueue(newOptions);
-        this.channel.bindQueue(this.queueName, this.queueName, severity);
+        this.channel.bindQueue(this.queueName, this.exchange, severity);
         this.channel.consume(this.queueName, data => {
             hanlder(data.content.toString());
         }, { noAck: newOptions.noAck });
