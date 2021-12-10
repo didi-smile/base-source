@@ -12,7 +12,7 @@
     },
     "rules": {
         "quotes": ["off"],
-        "indent": ["error", 4],
+        "indent": ["off"],
         "arrow-parens": ["error", "as-needed"],
         "padded-blocks": ["off"],
         "prefer-object-spread": ["off"],
@@ -32,6 +32,7 @@
         "class-methods-use-this": ["off"],
         "linebreak-style": ["off"],
         "no-continue": ["off"],
-        "no-await-in-loop": ["off"]
+        "no-await-in-loop": ["off"],
+        "no-case-declarations": ["off"]
     }
 }

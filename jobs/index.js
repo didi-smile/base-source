@@ -1,8 +1,6 @@
 // @ts-check
 
 const logger = require('../components/logger');
-
-// rabbit
 const { connectRabbit, createRabbitQueue } = require('./rabbit-queue');
 const { createBullQueue } = require('./bull-queue');
 const { QUEUE } = require('../constants/queue');
@@ -25,7 +23,7 @@ const settings = {
     },
 };
 
-let listQueue;
+let listQueue = {};
 
 async function createListQueue() {
     const result = {};
@@ -33,13 +31,19 @@ async function createListQueue() {
     for (const queueName in settings) {
         if (!settings[queueName].type) continue;
 
-        if (settings[queueName].type === TYPE_QUEUES.BULL) {
-            const { concurrency } = settings[queueName];
-            const queue = createBullQueue(queueName, concurrency);
-            result[queueName] = queue;
-        } else if (settings[queueName].type === TYPE_QUEUES.RABBIT) {
-            const queue = await createRabbitQueue(queueName, connection);
-            result[queueName] = queue;
+        switch (settings[queueName].type) {
+            case TYPE_QUEUES.BULL:
+                const { concurrency } = settings[queueName];
+                const bullQueue = createBullQueue(queueName, concurrency);
+                result[queueName] = bullQueue;
+                break;
+
+            case TYPE_QUEUES.RABBIT:
+                const rabbitQueue = await createRabbitQueue(queueName, connection);
+                result[queueName] = rabbitQueue;
+                break;
+            default:
+                break;
         }
     }
 
@@ -63,10 +67,10 @@ async function setupJob() {
 
 async function addJob(queueName, jobData, options = {}) {
     if (queueName in listQueue) {
-        listQueue[queueName].provide(jobData, options);
-    } else {
-        logger.warn(`queue ${queueName} does not exist!`);
+        return listQueue[queueName].provide(jobData, options);
     }
+
+    logger.warn(`queue ${queueName} does not exist!`);
 }
 
 module.exports = {
