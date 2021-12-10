@@ -3,8 +3,8 @@
 const logger = require('../components/logger');
 
 // rabbit
-const { connectRabbit, getRabbitQueue } = require('./rabbit-queue');
-const { getBullQueue } = require('./bull-queue');
+const { connectRabbit, createRabbitQueue } = require('./rabbit-queue');
+const { createBullQueue } = require('./bull-queue');
 const { QUEUE } = require('../constants/queue');
 const { pingHandler } = require('./consumers/ping');
 const { handlerNotification } = require('./consumers/noitification');
@@ -25,7 +25,9 @@ const settings = {
     },
 };
 
-async function getListQueue() {
+let listQueue;
+
+async function createListQueue() {
     const result = {};
     const connection = await connectRabbit();
     for (const queueName in settings) {
@@ -33,15 +35,15 @@ async function getListQueue() {
 
         if (settings[queueName].type === TYPE_QUEUES.BULL) {
             const { concurrency } = settings[queueName];
-            const queue = getBullQueue(queueName, concurrency);
+            const queue = createBullQueue(queueName, concurrency);
             result[queueName] = queue;
         } else if (settings[queueName].type === TYPE_QUEUES.RABBIT) {
-            const queue = await getRabbitQueue(queueName, connection);
+            const queue = await createRabbitQueue(queueName, connection);
             result[queueName] = queue;
         }
     }
 
-    return result
+    return result;
 }
 
 function loadConsumer(listQueueName) {
@@ -52,7 +54,7 @@ function loadConsumer(listQueueName) {
 }
 
 async function setupJob() {
-    const listQueue = await getListQueue();
+    listQueue = await createListQueue();
     // add consumers
     loadConsumer(listQueue);
 
@@ -60,7 +62,6 @@ async function setupJob() {
 }
 
 async function addJob(queueName, jobData, options = {}) {
-    const listQueue = await getListQueue();
     if (queueName in listQueue) {
         listQueue[queueName].provide(jobData, options);
     } else {

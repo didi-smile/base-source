@@ -1,9 +1,9 @@
 const logger = require('./logger');
 
 class VRabbitQueue {
-    constructor(queueName, exchange) {
+    constructor(queueName, exchange = '') {
         this.queueName = queueName;
-        this.exchange = exchange || '';
+        this.exchange = exchange;
     }
 
     getQueueName() {
@@ -17,9 +17,12 @@ class VRabbitQueue {
     async init(connection, options = {}) {
         const newOptions = Object.assign({
             durable: true,
+            exchangeType: 'direct',
         }, options);
         this.channel = await connection.createChannel();
-        this.channel.assertExchange(this.exchange, 'direct', newOptions).catch(this.error);
+        this.channel.assertExchange(this.exchange, newOptions.exchangeType, {
+            durable: newOptions.durable,
+        }).catch(this.error);
     }
 
     provide(message, options = {}) {
@@ -44,7 +47,13 @@ class VRabbitQueue {
         this.channel.bindQueue(this.queueName, this.exchange, severity);
         this.channel.consume(this.queueName, data => {
             try {
-                hanlder(data.content.toString());
+                if (typeof hanlder === 'function') {
+                    if (isAsync(hanlder)) {
+                        await hanlder(data.content.toString());
+                    } else {
+                        hanlder(data.content.toString());
+                    }
+                }
             } catch (error) {
                 logger.error('Failed to handle function', error);
             }
@@ -55,6 +64,10 @@ class VRabbitQueue {
         logger.error('Failed to handle rabbit queue', error);
         process.exit(1);
     }
+}
+
+function isAsync(f) {
+    return f.constructor.name === 'AsyncFunction';
 }
 
 module.exports = VRabbitQueue;

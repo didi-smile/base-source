@@ -6,7 +6,7 @@ function connectRabbit() {
     return amqp.connect(process.env.RABBIT_HOST);
 }
 
-async function getRabbitQueue(queueName, connection) {
+async function createRabbitQueue(queueName, connection) {
     const queue = new VRabbitQueue(queueName, queueName);
     await queue.init(connection);
 
@@ -15,5 +15,5 @@ async function getRabbitQueue(queueName, connection) {
 
 module.exports = {
     connectRabbit,
-    getRabbitQueue,
+    createRabbitQueue,
 };
