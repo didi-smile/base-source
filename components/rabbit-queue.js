@@ -1,5 +1,9 @@
 const logger = require('./logger');
 
+function isAsync(f) {
+    return f.constructor.name === 'AsyncFunction';
+}
+
 class VRabbitQueue {
     constructor(queueName, exchange = '') {
         this.queueName = queueName;
@@ -45,7 +49,7 @@ class VRabbitQueue {
         }, options);
         await this.assertQueue(newOptions);
         this.channel.bindQueue(this.queueName, this.exchange, severity);
-        this.channel.consume(this.queueName, data => {
+        this.channel.consume(this.queueName, async data => {
             try {
                 if (typeof hanlder === 'function') {
                     if (isAsync(hanlder)) {
@@ -64,10 +68,6 @@ class VRabbitQueue {
         logger.error('Failed to handle rabbit queue', error);
         process.exit(1);
     }
-}
-
-function isAsync(f) {
-    return f.constructor.name === 'AsyncFunction';
 }
 
 module.exports = VRabbitQueue;
