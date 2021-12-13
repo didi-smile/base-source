@@ -97,10 +97,12 @@ Base source for VNLP projects
     - Repository mustn't import other repositories.
 
 ## Integration
-- Logger (Pino with ELK stack)
-- Tracing (Jaeger)
-- Message Queue (bull, RabbitMQ)
-- Monitoring (Prometheus, Grafana)
+### Logger (Pino with ELK stack)
+### Tracing (Jaeger)
+### Message Queue (bull, RabbitMQ)
+### Monitoring (Prometheus, Grafana)
+- Installation Prometheus: https://github.com/VNLP-Tech/node-metrics
+
 
 
 ## Run

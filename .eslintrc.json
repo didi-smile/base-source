@@ -12,7 +12,7 @@
     },
     "rules": {
         "quotes": ["error", "single"],
-        "indent": ["error", 4],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "arrow-parens": ["error", "as-needed"],
         "padded-blocks": ["off"],
         "prefer-object-spread": ["off"],
@@ -29,6 +29,7 @@
             "enforceForRenamedProperties": false
         }],
         "import/no-extraneous-dependencies": ["off"],
-        "class-methods-use-this": ["off"]
+        "class-methods-use-this": ["off"],
+        "default-case": ["off"]
     }
 }
