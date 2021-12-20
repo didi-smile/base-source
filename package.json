@@ -21,8 +21,8 @@
   },
   "homepage": "https://github.com/duysmile/structure-app-nodejs#readme",
   "dependencies": {
-    "@vnlp/logger": "github:duysmile/logger",
     "amqplib": "^0.8.0",
+    "@vnlp/logger": "0.0.1",
     "bull": "^4.0.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -33,6 +33,7 @@
     "jaeger-client": "^3.18.1",
     "lodash": "^4.17.21",
     "mongoose": "^6.0.12",
+    "prom-client": "^14.0.1",
     "redis": "^4.0.0",
     "source-map-support": "^0.5.21"
   },

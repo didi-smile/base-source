@@ -1,18 +1,14 @@
 // @ts-check
 
-const { tryCatchWrapper } = require('../../common/wrapper');
+const BaseController = require('../../common/base-controller');
 const { addJob } = require('../../jobs');
 const { QUEUE } = require('../../constants/queue');
 
 // dependencies
 const userBusiness = require('./business');
 
-class AuthController {
-    constructor() {
-        this.getListUsers = tryCatchWrapper(this._getListUsers);
-    }
-
-    async _getListUsers(req, res) {
+class AuthController extends BaseController {
+    async getListUsers(req, res) {
         const { page, limit } = req.query;
 
         const result = await userBusiness.getListUser(page, limit);

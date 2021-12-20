@@ -11,8 +11,8 @@
         "ecmaVersion": 13
     },
     "rules": {
-        "quotes": ["off"],
-        "indent": ["off"],
+        "quotes": ["error", "single"],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
         "arrow-parens": ["error", "as-needed"],
         "padded-blocks": ["off"],
         "prefer-object-spread": ["off"],
@@ -34,5 +34,6 @@
         "no-continue": ["off"],
         "no-await-in-loop": ["off"],
         "no-case-declarations": ["off"]
+        "default-case": ["off"]
     }
 }
