@@ -1,25 +1,54 @@
 // @ts-check
 
-const VQueue = require('../components/bull-queue');
 const logger = require('../components/logger');
+const { connectRabbit, createRabbitQueue } = require('./rabbit-queue');
+const { createBullQueue } = require('./bull-queue');
 const { QUEUE } = require('../constants/queue');
-
-// import handlers
 const { pingHandler } = require('./consumers/ping');
+const { handlerNotification } = require('./consumers/noitification');
+const { TYPE_QUEUES } = require('../constants/common');
 
 const settings = {
+    // bull
     [QUEUE.Ping]: {
         concurrency: 1,
         handler: pingHandler,
+        type: TYPE_QUEUES.BULL,
+    },
+
+    // rabbit
+    [QUEUE.Notification]: {
+        handler: handlerNotification,
+        type: TYPE_QUEUES.RABBIT,
     },
 };
 
-const listQueue = Object.keys(settings).reduce((init, queueName) => {
-    const { concurrency } = settings[queueName];
-    return Object.assign(init, {
-        [queueName]: new VQueue(queueName, concurrency),
-    });
-}, {});
+let listQueue = {};
+
+async function createListQueue() {
+    const result = {};
+    const connection = await connectRabbit();
+    for (const queueName in settings) {
+        if (!settings[queueName].type) continue;
+
+        switch (settings[queueName].type) {
+            case TYPE_QUEUES.BULL:
+                const { concurrency } = settings[queueName];
+                const bullQueue = createBullQueue(queueName, concurrency);
+                result[queueName] = bullQueue;
+                break;
+
+            case TYPE_QUEUES.RABBIT:
+                const rabbitQueue = await createRabbitQueue(queueName, connection);
+                result[queueName] = rabbitQueue;
+                break;
+            default:
+                break;
+        }
+    }
+
+    return result;
+}
 
 function loadConsumer(listQueueName) {
     for (const queueName in listQueueName) {
@@ -28,19 +57,20 @@ function loadConsumer(listQueueName) {
     }
 }
 
-function setupJob() {
+async function setupJob() {
+    listQueue = await createListQueue();
     // add consumers
     loadConsumer(listQueue);
 
     logger.info('finish load consumer');
 }
 
-function addJob(queueName, jobData, options = {}) {
+async function addJob(queueName, jobData, options = {}) {
     if (queueName in listQueue) {
-        listQueue[queueName].provide(jobData, options);
-    } else {
-        logger.warn(`queue ${queueName} does not exist!`);
+        return listQueue[queueName].provide(jobData, options);
     }
+
+    logger.warn(`queue ${queueName} does not exist!`);
 }
 
 module.exports = {
