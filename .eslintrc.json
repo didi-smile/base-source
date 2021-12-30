@@ -33,7 +33,7 @@
         "linebreak-style": ["off"],
         "no-continue": ["off"],
         "no-await-in-loop": ["off"],
-        "no-case-declarations": ["off"]
+        "no-case-declarations": ["off"],
         "default-case": ["off"]
     }
 }
