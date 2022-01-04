@@ -35,7 +35,7 @@ module.exports = logger => (err, req, res, next) => {
         };
 
         if (req.isOpenAPI) {
-            errInstance.errorCode = err.errorCode();
+            errInstance.errorCode = err.errorCode;
         }
 
         return res.status(err.statusCode)
