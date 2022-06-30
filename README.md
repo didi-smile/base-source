@@ -1,7 +1,7 @@
 # VNLP source base
-![VNLP](https://img.shields.io/badge/VNLP%20Tech-vnlp.ai-brightgreen)
+![didi](https://img.shields.io/badge/didi-duysmile.com-brightgreen)
 
-Base source for VNLP projects
+Base source for Node projects
 
 
 ## Guide
@@ -127,5 +127,5 @@ Base source for VNLP projects
 
 
 ## Contribute
-- VNLP team members can create PR to this repo to contribute to this source
+- Everyone can create PR to this repo to contribute to this source
 - If you have a problem with this source, you can add an issue and tag `@duysmile` or email me `duy210697@gmail.com`
